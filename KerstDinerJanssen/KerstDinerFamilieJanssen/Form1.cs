@@ -50,6 +50,7 @@ namespace KerstDinerFamilieJanssen
             else
             {
                 naam = Convert.ToString(tbVoornaam.Text) + " " + Convert.ToString(tbAchternaam.Text);
+                naam = System.Text.RegularExpressions.Regex.Replace(naam,"  ", " ");
                 bereidVoor = Convert.ToString(tbBereidVoor.Text);
                 soortEten = Convert.ToString(cbSoortEten.Text);
                 db.InsertData(ID, naam, bereidVoor, soortEten);
@@ -79,40 +80,46 @@ namespace KerstDinerFamilieJanssen
         //Verwijder het geselecteerde gerecht
         private void btnVerwijderGerecht_Click(object sender, EventArgs e)
         {
+            db.ConnectToDB();
             geselecteerdGerecht = Convert.ToString(lbWatWordtVoorbereid.SelectedItem);
-            stringArray = new string[3];
+            stringArray = new string[4];
             stringArray = geselecteerdGerecht.Split(' ');
 
-            naam = stringArray[0];
-            bereidVoor = stringArray[1];
-            soortEten = stringArray[2];
+            naam = Convert.ToString(stringArray[0] + " " + stringArray[1]);
+            bereidVoor = stringArray[2];
+            soortEten = stringArray[3];
 
             db.VerwijderGerecht(naam, bereidVoor, soortEten);
+            db.DisconnectFromDB();
             UpdateListboxes();
         }
 
         //Pas het gerecht aan
         private void btnPasGerechtAan_Click(object sender, EventArgs e)
         {
+            db.ConnectToDB();
             geselecteerdGerecht = Convert.ToString(lbWatWordtVoorbereid.SelectedItem);
-            stringArray = new string[3];
+            stringArray = new string[4];
             stringArray = geselecteerdGerecht.Split(' ');
 
             //Originele data
-            naam = stringArray[0];
-            bereidVoor = stringArray[1];
-            soortEten = stringArray[2];
+            naam = stringArray[0] + " " + stringArray[1];
+            bereidVoor = stringArray[2];
+            soortEten = stringArray[3];
 
             //Voor aan te passen
-            tbNieuwNaam.Text = stringArray[0];
-            tbNieuwBereidVoor.Text = stringArray[1];
-            tbNieuwSoortEten.Text = stringArray[2];
+            tbNieuwNaam.Text = stringArray[0] + " " + stringArray[1];
+            tbNieuwBereidVoor.Text = stringArray[2];
+            cbNieuwSoortEten.Text = stringArray[3];
+            db.DisconnectFromDB();
         }
 
         //Pas het gerecht daadwerkelijk aan
         private void btnPasAan_Click(object sender, EventArgs e)
         {
-            db.PasGerechtAan(naam, bereidVoor, soortEten, tbNieuwNaam.Text, tbNieuwBereidVoor.Text, tbNieuwSoortEten.Text);
+            db.ConnectToDB();
+            db.PasGerechtAan(naam, bereidVoor, soortEten, tbNieuwNaam.Text, tbNieuwBereidVoor.Text, cbNieuwSoortEten.Text);
+            db.DisconnectFromDB();
             UpdateListboxes();
         }
     }

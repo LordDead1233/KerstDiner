@@ -11,7 +11,7 @@ namespace KerstDinerFamilieJanssen
 {
     public class Database
     {
-        string connStr = "server=80.100.207.50:3306;user=richard;database=kerstdb;port=3306;password=rgjj4kerst;";
+        string connStr = "server=192.168.178.67;user=richard;database=kerstdb;port=3306;password=rgjj4kerst;";
         MySqlConnection myConnection;
         Gerecht gerecht;
         //80.100.207.50:3306
@@ -92,7 +92,7 @@ namespace KerstDinerFamilieJanssen
         //Verwijder een gerecht
         public void VerwijderGerecht(string naam, string bereidvoor, string soorteten)
         {
-            Query = "DELETE FROM Gerecht WHERE Naam = " + naam + " AND BereidVoor = " + bereidvoor + " AND SoortEten = " + soorteten;
+            Query = "DELETE FROM Gerecht WHERE Naam = " + "'" + naam + "'" + " AND BereidVoor = " + "'" + bereidvoor + "'" + " AND SoortEten = " + "'" + soorteten + "'";
 
             try
             {
@@ -107,7 +107,7 @@ namespace KerstDinerFamilieJanssen
 
         public void PasGerechtAan(string naam, string bereidvoor, string soorteten, string nieuwnaam, string nieuwbereidvoor, string nieuwsoorteten)
         {
-            Query = "UPDATE Gerecht SET Naam = " + nieuwnaam + ", BereidVoor = " + nieuwbereidvoor + ", SoortEten = " + nieuwsoorteten + " WHERE Naam = " + naam + " AND BereidVoor = " + bereidvoor + " AND SoortEten = " + soorteten;
+            Query = "UPDATE Gerecht SET Naam = " + "'" + nieuwnaam + "'" + ", BereidVoor = " + "'" + nieuwbereidvoor + "'" + ", SoortEten = " + "'" + nieuwsoorteten + "'" + " WHERE Naam = " + "'" + naam + "'" + " AND BereidVoor = " + "'" + bereidvoor + "'" + " AND SoortEten = " + "'" + soorteten + "'";
 
             try
             {
